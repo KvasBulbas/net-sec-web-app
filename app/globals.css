@@ -24,3 +24,9 @@ p { max-width: 440px; margin: 0 0 32px; color: #60655d; font-size: 18px; line-he
 a { padding: 14px 20px; border-radius: 8px; background: #244d36; color: #fff; text-decoration: none; }
 a:hover { background: #193c28; }
 a:focus-visible { outline: 3px solid #789d57; outline-offset: 4px; }
+
+button { padding: 14px 20px; border: 0; border-radius: 8px; background: #244d36; color: #fff; font: inherit; cursor: pointer; }
+button:hover:not(:disabled) { background: #193c28; }
+button:focus-visible { outline: 3px solid #789d57; outline-offset: 4px; }
+button:disabled { opacity: 0.65; cursor: wait; }
+.request-result { margin: 24px 0 0; overflow-wrap: anywhere; }
