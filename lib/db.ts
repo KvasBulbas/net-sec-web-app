@@ -1,7 +1,22 @@
-// Здесь будет подключение к базе данных.
-// После выбора БД и библиотеки создай и экспортируй клиент подключения.
-// Строку подключения храни в .env.local, например в DATABASE_URL.
-// Не используй префикс NEXT_PUBLIC_ для паролей и строки подключения.
-// Этот модуль предназначен только для серверного кода.
-// При реализации добавь import "server-only" и соответствующую зависимость,
-// чтобы Next.js обнаруживал случайный импорт из клиентских компонентов.
+﻿import "server-only";
+
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "../app/generated/prisma/client";
+
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set");
+}
+
+const globalForPrisma = globalThis as unknown as {
+  prisma?: PrismaClient;
+};
+
+// Reuse the pool across Next.js development hot reloads.
+export const prisma = globalForPrisma.prisma ?? new PrismaClient({
+  adapter: new PrismaPg({ connectionString }),
+});
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}

@@ -15,6 +15,9 @@ services:
   app:
     image: net-sec-web-app-dev
     build: .
+    command: sh -c "npx prisma migrate deploy && npx prisma generate && exec npm run dev"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
     restart: unless-stopped
     volumes:
       - .:/app
